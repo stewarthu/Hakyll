@@ -22,8 +22,9 @@ import           TestSuite.Util
 --------------------------------------------------------------------------------
 tests :: TestTree
 tests = testGroup "Hakyll.Core.UnixFilter.Tests"
-    [ testCase "unixFilter rev"   unixFilterRev
-    , testCase "unixFilter false" unixFilterFalse
+    [
+    --testCase "unixFilter rev"   unixFilterRev
+    testCase "unixFilter false" unixFilterFalse
     , testCase "unixFilter error" unixFilterError
     ]
 

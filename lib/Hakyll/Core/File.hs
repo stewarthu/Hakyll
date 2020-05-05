@@ -6,6 +6,7 @@
 module Hakyll.Core.File
     ( CopyFile (..)
     , copyFileCompiler
+    , listFileCompiler
     , TmpFile (..)
     , newTmpFile
     ) where
@@ -34,11 +35,13 @@ import           Hakyll.Core.Provider
 import qualified Hakyll.Core.Store             as Store
 import           Hakyll.Core.Util.File
 import           Hakyll.Core.Writable
+import           Hakyll.Core.Identifier.Pattern
+import           Hakyll.Core.Metadata
 
 
 --------------------------------------------------------------------------------
 -- | This will copy any file directly by using a system call
-newtype CopyFile = CopyFile FilePath
+newtype CopyFile = CopyFile { unFilePath ::  FilePath}
     deriving (Binary, Eq, Ord, Show, Typeable)
 
 
@@ -56,6 +59,11 @@ copyFileCompiler = do
     provider   <- compilerProvider <$> compilerAsk
     makeItem $ CopyFile $ resourceFilePath provider identifier
 
+listFileCompiler :: Pattern -> Compiler [Item FilePath]
+listFileCompiler pattern = do
+    provider <- compilerProvider  <$> compilerAsk
+    matching <- getMatches pattern
+    mapM (makeItem . resourceFilePath provider) matching
 
 --------------------------------------------------------------------------------
 newtype TmpFile = TmpFile FilePath

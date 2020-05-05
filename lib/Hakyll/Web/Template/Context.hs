@@ -38,6 +38,7 @@ module Hakyll.Web.Template.Context
     , urlField
     , pathField
     , titleField
+    , titleFieldFromBody
     , snippetField
     , dateField
     , dateFieldWith
@@ -299,6 +300,8 @@ pathField key = field key $ return . toFilePath . itemIdentifier
 titleField :: String -> Context a
 titleField = mapContext takeBaseName . pathField
 
+titleFieldFromBody :: String -> Context String
+titleFieldFromBody = mapContext takeBaseName . bodyField
 
 --------------------------------------------------------------------------------
 -- | When the metadata has a field called @published@ in one of the
